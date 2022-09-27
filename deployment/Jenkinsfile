@@ -1,0 +1,41 @@
+pipeline {
+	
+	agent any
+
+	stages {
+		// stage("build") {
+		// 	steps {
+		// 		sh "echo [build] START"
+		// 		sh "rm -rf dist*"
+		// 		sh "npm install && npm run build"
+		// 		sh "echo [bulid] END"
+		// 	}
+		// }
+		
+		stage("deploy") {
+			steps {
+				sh "echo [deploy] START"
+				sh "mkdir -p deployment/tar && tar cvf deployment/tar/dist.tar dist"
+				sh "echo [deploy] END"
+			}
+		}
+
+		stage("dockerize") {
+			steps {
+				script {
+
+					echo "[dockerize] START" 
+
+					docker.withRegistry('http://3.39.117.244:5000', 'beast-nexus') {
+						def containerCurrentImage = docker.build("beast/frontend/test-frontend:1.0.0", "-f ./deployment/Dockerfile ./deployment")
+						containerCurrentImage.push()
+					}
+
+					echo "[dockerize] END" 
+				}
+			}
+		}
+
+    }
+}
+
