@@ -3,38 +3,22 @@ pipeline {
 	agent any
 
 	stages {
-		// stage("build") {
-		// 	steps {
-		// 		sh "echo [build] START"
-		// 		sh "rm -rf dist*"
-		// 		sh "npm install && npm run build"
-		// 		sh "echo [bulid] END"
-		// 	}
-		// }
-		
-		// stage("deploy") {
-		// 	steps {
-		// 		sh "echo [deploy] START"
-		// 		sh "mkdir -p deployment/tar && tar cvf deployment/tar/dist.tar dist"
-		// 		sh "echo [deploy] END"
-		// 	}
-		// }
+        stage('========== Clone repository ==========') {
+            checkout scm
+        }
 
-		stage("dockerize") {
-			steps {
-				script {
-
-					echo "[dockerize] START" 
-
-					docker.withRegistry('https://registry.hub.docker.com', '42bba9ad-eefc-402d-a108-1148fdd417bd') {
-						def containerCurrentImage = docker.build("chansubchoi/test1", "-f ./deployment/Dockerfile ./deployment")
-						containerCurrentImage.push()
-					}
-
-					echo "[dockerize] END" 
-				}
-			}
-		}
+        stage("dockerize") {
+            steps {
+                script {
+                    echo "[dockerize] START" 
+                    docker.withRegistry('https://registry.hub.docker.com', '42bba9ad-eefc-402d-a108-1148fdd417bd') {
+                        def containerCurrentImage = docker.build("chansubchoi/test1", "-f ./deployment/Dockerfile ./deployment")
+                        containerCurrentImage.push()
+                    }
+                    echo "[dockerize] END" 
+                }
+            }
+        }
 
     }
 }
