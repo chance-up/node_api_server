@@ -12,13 +12,13 @@ pipeline {
 		// 	}
 		// }
 		
-		stage("deploy") {
-			steps {
-				sh "echo [deploy] START"
-				sh "mkdir -p deployment/tar && tar cvf deployment/tar/dist.tar dist"
-				sh "echo [deploy] END"
-			}
-		}
+		// stage("deploy") {
+		// 	steps {
+		// 		sh "echo [deploy] START"
+		// 		sh "mkdir -p deployment/tar && tar cvf deployment/tar/dist.tar dist"
+		// 		sh "echo [deploy] END"
+		// 	}
+		// }
 
 		stage("dockerize") {
 			steps {
@@ -26,8 +26,8 @@ pipeline {
 
 					echo "[dockerize] START" 
 
-					docker.withRegistry('http://3.39.117.244:5000', 'beast-nexus') {
-						def containerCurrentImage = docker.build("beast/frontend/test-frontend:1.0.0", "-f ./deployment/Dockerfile ./deployment")
+					docker.withRegistry('chansubchoi/test1', '') {
+						def containerCurrentImage = docker.build("node-api-server:1.0.0", "-f ./deployment/Dockerfile ./deployment")
 						containerCurrentImage.push()
 					}
 
