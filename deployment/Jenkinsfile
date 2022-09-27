@@ -26,7 +26,7 @@ pipeline {
 
 					echo "[dockerize] START" 
 
-					docker.withRegistry('https://registry.hub.docker.com', 'docker-hub') {
+					docker.withRegistry('https://registry.hub.docker.com', '42bba9ad-eefc-402d-a108-1148fdd417bd') {
 						def containerCurrentImage = docker.build("chansubchoi/test1", "-f ./deployment/Dockerfile ./deployment")
 						containerCurrentImage.push()
 					}
