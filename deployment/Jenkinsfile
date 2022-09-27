@@ -16,7 +16,7 @@ pipeline {
                 script {
                     echo "[dockerize] START" 
                     docker.withRegistry('https://registry.hub.docker.com', '42bba9ad-eefc-402d-a108-1148fdd417bd') {
-                        def containerCurrentImage = docker.build("chansubchoi/test1", "-f /var/jenkins_home/workspace/NODE_SERVER_1/deployment/Dockerfile /var/jenkins_home/workspace/NODE_SERVER_1/deployment")
+                        def containerCurrentImage = docker.build("chansubchoi/test1", "-f Dockerfile")
                         containerCurrentImage.push()
                     }
                     echo "[dockerize] END" 
