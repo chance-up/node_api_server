@@ -6,8 +6,7 @@ pipeline {
         stage('========== Clone repository ==========') {
             steps {
 				sh "echo [build] START"
-                sh "cd ./deployment"
-				sh "ls -al"
+				sh "pwd"
 				sh "echo [bulid] END"
 			}
         }
